@@ -29,10 +29,8 @@ ApiConnector.getStocks( (response) => {
 })
 
 const moneyManager = new MoneyManager();
-moneyManager.addMoneyCallback = () => {
-    moneyManager.addMoneyAction()
-
-    moneyManager.addMoneyCallback( (response) =>{
+moneyManager.addMoneyCallback = (response) => {
+    moneyManager.addMoneyAction( (response) =>{
         if (response.success) {
             console.log(response.data)
             ProfileWidget.showProfile(response.data)
