@@ -1,4 +1,7 @@
 'use strict'
+
+const { response } = require("express");
+
 const logoutButton = new LogoutButton();
 logoutButton.action = () => {
     ApiConnector.logout( (response) => {
@@ -40,3 +43,40 @@ moneyManager.addMoneyCallback = (response) => {
     } )
 }
 
+const favoritesWidget = new FavoritesWidget();
+ApiConnector.getFavorites( (response) => {
+    if (response.success) {        
+        favoritesWidget.clearTable()
+        favoritesWidget.fillTable(response.data)
+        moneyManager.updateUsersList(response.data)
+    } else {
+        console.log(response.error);
+    }
+})
+
+favoritesWidget.addUserCallback = () => {
+    ApiConnector.addUserToFavorites( data, (response) => {
+        if (response.success) {      
+            favoritesWidget.clearTable()
+            favoritesWidget.fillTable(response.data)
+            moneyManager.updateUsersList(response.data)
+            favoritesWidget.setMessage(response.data)
+        } else {
+            favoritesWidget.setMessage(response.error)
+            console.log(response.error);
+        }
+    } )
+}
+
+favoritesWidget.addUserCallback = () => {
+    ApiConnector.removeUserFromFavorites( data, (response) => {
+        if (response.success) {
+            favoritesWidget.clearTable()
+            favoritesWidget.fillTable(response.data)
+            moneyManager.updateUsersList(response.data)
+            favoritesWidget.setMessage(response.data)
+        } else {
+            console.log(response.error);
+        }
+    })
+}
