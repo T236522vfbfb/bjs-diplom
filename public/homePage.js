@@ -39,3 +39,4 @@ moneyManager.addMoneyCallback = (response) => {
         }
     } )
 }
+
